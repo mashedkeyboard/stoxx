@@ -1,0 +1,3 @@
+*.db
+stock/__pycache__/
+stocksvc/__pycache__/
