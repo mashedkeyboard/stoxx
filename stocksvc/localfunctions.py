@@ -24,6 +24,31 @@ def listStock():
         rows = c.fetchall()
         return(str(rows))
 
+# Searches stock in database
+def srcStock(sockconn):
+    # Database connection
+    global c
+    conn = sqlite3.connect('stock.db')
+    c = conn.cursor()
+    try:
+        itemsToReturn = []
+        sendstr = "CMD ACC SEND STKNM"
+        sockconn.send(bytes(sendstr, 'UTF-8'))
+        data = sockconn.recv(512).decode("utf-8")
+        c.execute('SELECT * FROM stock WHERE Name LIKE "%' + data + '%";')
+        while True:
+            row = c.fetchone()
+            if not row:
+                break
+            else:
+                itemsToReturn.append([str(row[0]),str(row[1]),str(row[2]),str(row[3])])
+            sockconn.send(bytes(str(itemsToReturn), 'UTF-8'))
+            
+    except ValueError:
+        sendstr = "INPUT ERR"
+        sockconn.send(bytes(sendstr, 'UTF-8'))
+        return(False)
+
 # Adds stock to database
 def addStock(sockconn):
     try:
@@ -47,7 +72,7 @@ def addStock(sockconn):
                     return(False)
             stg += 1
             sockconn.send(bytes(sendstr, 'UTF-8'))
-            data = conn.recv(512).decode("utf-8")
+            data = sockconn.recv(512).decode("utf-8")
 
         try:
             # Database connection
@@ -69,7 +94,7 @@ def addStock(sockconn):
         
     except ValueError:
         sendstr = "INPUT ERR"
-        conn.send(bytes(sendstr, 'UTF-8'))
+        sockconn.send(bytes(sendstr, 'UTF-8'))
         return(False)
 
 # Removes stock from database
@@ -140,34 +165,3 @@ def stockFillByName(stnm):
             break
         else:
             print("Invalid input, try again.")
-
-# finding stock
-def findStock():
-    while True:
-        stockname = input("Enter the name of the stock you want to find > ")
-        c.execute('SELECT * FROM stock WHERE Name = "' + stockname + '";')
-        row = c.fetchone()
-        if not row:
-            print("You have no stock added to the database that matches that search.")
-        else:
-            print(str(len(row)) + " items in the database matching " + stockname)
-            print("--- BEGIN RESULTS ---")
-            print(" | ID | Name | Price | Stock |")
-            while True:
-                if row == None:
-                    break
-                else:
-                    print(" | ",row[0], " | ", row[1], " | ", row[2], " | ", row[3]," | ")
-                    row = c.fetchone()
-            print("--- END RESULTS ---")
-        input("Press Enter to continue > ")
-        while True:
-            try:
-                gostay = int(input("Press 1 to search again, or 2 to go back to the main menu. > "))
-                print("---")
-            except ValueError:
-                print("Oops, that wasn't a valid option. Try again.")
-            if (gostay == 2):
-                return
-            elif (gostay != 1):
-                print("Oops, that wasn't a valid option. Try again.")
