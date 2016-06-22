@@ -12,13 +12,6 @@ global Config
 Config = configparser.ConfigParser()
 Config.read("stoxx.ini")
 
-# Initialization
-try:
-    Config.get("LICENSE", "LicenseNo")
-except:
-    input("Error getting license details. Check your license and try again. Press any key to quit.")
-    quit()
-
 # One time setup
 if Config.get("SETTINGS", "FirstRun") == "1":
     print("---")
@@ -101,12 +94,9 @@ while True:
                 localfunctions.deleteStock()
                 break
             elif menuOption == 6:
-                print("Please consult the user documentation, available at stoxx.mashedkeyboard.me, for help. If there's some other issue, please feel free to contact curtis@mashedkeyboard.me.")
+                print("Please consult the user documentation, available at https://bitbucket.org/curtispf/stoxx/ for help. If there's some other issue, please feel free to contact the project through https://bitbucket.org/curtispf/stoxx/.")
                 print(" --- ")
                 print(" Stoxx 2016 ")
-                print(" Licensed to: " + Config.get("LICENSE", "LicenseeName"))
-                print(" Licensee company: " + Config.get("LICENSE", "LicenseeCompany"))
-                print(" License number: " + Config.get("LICENSE", "LicenseNo"))
                 print(" --- ")
                 break
             else:
