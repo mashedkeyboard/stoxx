@@ -1,8 +1,6 @@
-import socket
-import sys
+import sys, time, socket
 from _thread import *
 import localfunctions
-import time
 
 stoxxver = "0.0.3"
  
