@@ -1,3 +1,5 @@
++#!/usr/bin/python
++# -*- coding: utf-8 -*-
 import sqlite3
 import configparser
 import socketsvc

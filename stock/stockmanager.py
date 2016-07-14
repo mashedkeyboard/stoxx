@@ -1,3 +1,5 @@
++#!/usr/bin/python
++# -*- coding: utf-8 -*-
 # Stock management system
 # Curtis Parfitt-Ford (c) 2016
 

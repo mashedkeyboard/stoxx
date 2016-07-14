@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import sys, time, socket
 from _thread import *
 import localfunctions
