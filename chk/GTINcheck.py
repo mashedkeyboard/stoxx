@@ -1,3 +1,5 @@
++#!/usr/bin/python
++# -*- coding: utf-8 -*-
 ## GTIN-8 calculator
 ## Copyright (c) MashedKeyboard 2016
 ## All rights reserved
